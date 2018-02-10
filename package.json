@@ -1,14 +1,14 @@
 {
-  "name": "MinimalDexDB",
+  "name": "Min.dexedDB",
   "version": "0.0.1",
   "description": "A tiny wrapper for IndexedDB, which just supplies put() and get(), with Promises. Less than 1kb.",
-  "repository": "git@github.com:TomAnthony/MinimalDexDB.git",
+  "repository": "git@github.com:TomAnthony/Min.dexedDB.git",
   "author": "tom@tomanthony.co.uk",
   "license": "MIT",
   "scripts": {
-    "build": "./node_modules/uglify-es/bin/uglifyjs --mangle -c drop_console=true minimaldexdb.js -o minimaldexdb.min.js"
+    "build": "./node_modules/uglify-es/bin/uglifyjs --mangle -c drop_console=true mindexeddb.js -o mindexeddb.min.js"
   },
-  "dependencies": {
+  "devDependencies": {
     "uglify-es": "^3.3.10"
   }
 }
