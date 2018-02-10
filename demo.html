@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>MinimalDexDB - A tiny wrapper for IndexedDB</title>
+
+        <script src="minimaldexeddb.min.js"></script>
+        <script>
+            mdb = new MinimalDexDB("testDB", "testStore", "name");
+            mdb.connect().then(function() {
+                mdb.put({name: "Ralf", species: "Dog"});
+                mdb.put({name: "Fred", species: "Cat", numbers: [1,2,3]});
+                mdb.get("Fred").then(function(animal){console.log(animal.result)});
+                mdb.close();
+            });
+            // mdb.put({name: "Ralf", species: "Dog"});
+            // mdb.get("Ralf").then(function(animal){console.log(animal.result)});
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
