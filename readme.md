@@ -28,4 +28,4 @@ mdb2.connect().then(function() {
 
 ## Todo
 
-- Allow put() to take an array ob objects to add?
+- Allow put() to take an array of objects to add?

@@ -1,28 +1,29 @@
 <html>
     <head>
         <title>Min.dexedDB - A tiny wrapper for IndexedDB</title>
-
         <script src="mindexeddb.js"></script>
-        <script>
-            //[{testStore: "name"}], {surname: "Anthony"}]
-            mdb = new MindexedDB("testDB", {testStore: "name"});
-            mdb.connect().then(function() {
-                mdb.put("testStore", {name: "Ralf", species: "Dog"});
-                mdb.put("testStore", {name: "Fred", species: "Cat", numbers: [1,2,3]});
-                mdb.get("testStore", "Fred").then(function(animal){console.log(animal.result)});
-                mdb.close();
-            });
-            mdb2 = new MindexedDB("anotherTestDB", [{testStore: "name"}, {extraStore: "name"}]);
-            mdb2.connect().then(function() {
-                mdb2.put("testStore", {name: "Ralf", species: "Dog"});
-                mdb2.put("extraStore", {name: "Fred", species: "Cat", numbers: [1,2,3]});
-                mdb2.get("extraStore", "Fred").then(function(animal){console.log(animal.result)});
-                mdb2.close();
-            });
-            // mdb.put({name: "Ralf", species: "Dog"});
-            // mdb.get("Ralf").then(function(animal){console.log(animal.result)});
-        </script>
     </head>
     <body>
+            <script>
+                mdb = new MindexedDB("testDB", {testStore: "name"});
+                mdb.connect().then(function() {
+                    mdb.put("testStore", {name: "Ralf", species: "Dog"});
+                    mdb.put("testStore", {name: "Fred", species: "Cat", numbers: [1,2,3]});
+                    mdb.get("testStore", "Fred").then(function(animal){console.log(animal.result)});
+                    mdb.close();
+                });
+                mdb.connect().then(function() {
+                    mdb.put("testStore", {name: "Billy", species: "Cow"});
+                    mdb.get("testStore", "Fred").then(function(animal){document.write(animal.result.species)});
+                    mdb.close();
+                });
+                mdb2 = new MindexedDB("anotherTestDB", [{testStore: "name"}, {extraStore: "name"}]);
+                mdb2.connect().then(function() {
+                    mdb2.put("testStore", {name: "Ralf", species: "Dog"});
+                    mdb2.put("extraStore", {name: "Fred", species: "Cat", numbers: [1,2,3]});
+                    mdb2.get("extraStore", "Fred").then(function(animal){console.log(animal.result)});
+                    mdb2.close();
+                });
+            </script>
     </body>
 </html>
