@@ -1,10 +1,9 @@
 // TODO: IE11 fallback?
 
-function MinimalDexDB(databaseName, storeName, keyPath) {
+function MinimalDexDB(databaseName, objectStores) {
 	this.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
 	this.database = databaseName;
-	this.store = storeName;
-	this.keyPath = keyPath;
+	this.objectStores = Array.isArray(objectStores) ? objectStores : [objectStores];
 
 	this.connect = function(key) {
 		var conn = this.indexedDB.open(databaseName, 1);
@@ -12,7 +11,10 @@ function MinimalDexDB(databaseName, storeName, keyPath) {
 
 		conn.onupgradeneeded = function() {
 			var dbl = conn.result;
-			dbl.createObjectStore(this.mdb.store, {keyPath: this.mdb.keyPath});
+			this.mdb.objectStores.forEach(element => {
+				var store = Object.entries(element);
+				dbl.createObjectStore(store[0][0], {keyPath: store[0][1]});
+			});
 		};
 
 		return new Promise(function(resolve, reject) { 
@@ -23,20 +25,20 @@ function MinimalDexDB(databaseName, storeName, keyPath) {
 		});
 	}
 
-	this.put = function(obj) {
+	this.put = function(store, obj) {
 		if (this.db === undefined) throw "[MinmalDexDB] DB not connected.";
-		var tx = this.db.transaction(this.store, "readwrite");
-		var store = tx.objectStore(this.store);
-		store.put(obj);
+		var tx = this.db.transaction(store, "readwrite");
+		var os = tx.objectStore(store);
+		os.put(obj);
 	}
 
-	this.get = function(key) {
+	this.get = function(store, key) {
 		if (this.db === undefined) throw "[MinmalDexDB] DB not connected.";
-		var tx = this.db.transaction(this.store, "readwrite");
-		var store = tx.objectStore(this.store);
+		var tx = this.db.transaction(store, "readwrite");
+		var os = tx.objectStore(store);
 
 		return new Promise(function(resolve, reject) {
-			var response = store.get(key);
+			var response = os.get(key);
 			response.onsuccess = function() {
 				resolve(response);
 			};

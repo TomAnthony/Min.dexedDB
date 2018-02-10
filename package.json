@@ -6,6 +6,9 @@
   "author": "tom@tomanthony.co.uk",
   "license": "MIT",
   "scripts": {
-    "build": "./node_modules/uglify-js/bin/uglifyjs --mangle -c drop_console=true minimaldexdb.js -o minimaldex db.min.js"
+    "build": "./node_modules/uglify-es/bin/uglifyjs --mangle -c drop_console=true minimaldexdb.js -o minimaldexdb.min.js"
+  },
+  "dependencies": {
+    "uglify-es": "^3.3.10"
   }
 }
