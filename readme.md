@@ -1,6 +1,6 @@
 Min.dexedDB is a very tiny lightweight wrapper for IndexedDB (well, parts of it). It simply allows you to connect to a database, and to `put()` and `get()`. It uses Promises to make that a bit easier.
 
-It does not, and is not designed to, allow for any complex IndexedDB functionality. I simply wanted to easily add and fetch things, and wanted the code to be absolutely minimal. The minified version is in under 1kb un-gzipped, and only ~450 bytes gzipped.
+It does not, and is not designed to, allow for any complex IndexedDB functionality (even versions currently!). I simply wanted to easily add and fetch things, and wanted the code to be absolutely minimal. The minified version is in under 1kb un-gzipped, and only ~450 bytes gzipped.
 
 This has not been widely tested, as of yet, but should work with most modern browsers other than IE11 (about 4.5% of my users).
 
@@ -29,3 +29,4 @@ mdb2.connect().then(function() {
 ## Todo
 
 - Allow put() to take an array of objects to add?
+- IE11 fallback, given it has no Promise?

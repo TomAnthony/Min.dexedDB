@@ -1,5 +1,3 @@
-// TODO: IE11 fallback?
-
 function MindexedDB(databaseName, objectStores) {
 	this.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
 	this.database = databaseName;
