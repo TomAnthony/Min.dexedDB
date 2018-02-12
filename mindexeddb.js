@@ -28,10 +28,14 @@ function MindexedDB(databaseName, objectStores) {
 		});
 	}
 
-	this.put = function(store, obj) {
-		if (this.db === undefined) throw "[MindexDB] DB not connected.";
+	this.cs = function(store) {
+		if (this.db === undefined) throw "[MindexDB] DB not open.";
 		var tx = this.db.transaction(store, "readwrite");
-		var os = tx.objectStore(store);
+		return tx.objectStore(store);
+	}
+
+	this.put = function(store, obj) {
+		os = this.cs(store);
 
 		return new Promise(function(resolve, reject) {
 			var response = os.put(obj);
@@ -45,9 +49,7 @@ function MindexedDB(databaseName, objectStores) {
 	}
 
 	this.get = function(store, key) {
-		if (this.db === undefined) throw "[MindexDB] DB not connected.";
-		var tx = this.db.transaction(store, "readwrite");
-		var os = tx.objectStore(store);
+		os = this.cs(store);
 
 		return new Promise(function(resolve, reject) {
 			var response = os.get(key);
