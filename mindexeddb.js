@@ -29,7 +29,7 @@ function MindexedDB(databaseName, objectStores) {
 	}
 
 	this.put = function(store, obj) {
-		if (this.db === undefined) throw "[MinmalDexDB] DB not connected.";
+		if (this.db === undefined) throw "[MindexDB] DB not connected.";
 		var tx = this.db.transaction(store, "readwrite");
 		var os = tx.objectStore(store);
 
@@ -45,7 +45,7 @@ function MindexedDB(databaseName, objectStores) {
 	}
 
 	this.get = function(store, key) {
-		if (this.db === undefined) throw "[MinmalDexDB] DB not connected.";
+		if (this.db === undefined) throw "[MindexDB] DB not connected.";
 		var tx = this.db.transaction(store, "readwrite");
 		var os = tx.objectStore(store);
 
