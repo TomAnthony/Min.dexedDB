@@ -22,6 +22,9 @@ function MindexedDB(databaseName, objectStores) {
 				this.mdb.db = conn.result;
 				resolve(this.mdb.db);
 			}
+			conn.onerror = function() {
+				resolve(false);
+			}
 		});
 	}
 
@@ -29,7 +32,16 @@ function MindexedDB(databaseName, objectStores) {
 		if (this.db === undefined) throw "[MinmalDexDB] DB not connected.";
 		var tx = this.db.transaction(store, "readwrite");
 		var os = tx.objectStore(store);
-		os.put(obj);
+
+		return new Promise(function(resolve, reject) {
+			var response = os.put(obj);
+			response.onsuccess = function() {
+				resolve(true);
+			};
+			response.onerror = function() {
+				resolve(false);
+			};
+		});
 	}
 
 	this.get = function(store, key) {
@@ -41,6 +53,9 @@ function MindexedDB(databaseName, objectStores) {
 			var response = os.get(key);
 			response.onsuccess = function() {
 				resolve(response);
+			};
+			response.onerror = function() {
+				resolve(false);
 			};
 		});
 	}
