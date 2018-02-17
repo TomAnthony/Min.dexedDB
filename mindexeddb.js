@@ -1,15 +1,15 @@
 function MindexedDB(databaseName, objectStores) {
-	this.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
-	this.database = databaseName;
-	this.objectStores = Array.isArray(objectStores) ? objectStores : [objectStores];
+	this.idb = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+	this.db = databaseName;
+	this.objStrs = Array.isArray(objectStores) ? objectStores : [objectStores];
 
 	this.connect = function(key) {
-		var conn = this.indexedDB.open(databaseName, 1);
+		var conn = this.idb.open(this.db, 1);
 		conn.mdb = this;
 
 		conn.onupgradeneeded = function() {
 			var dbl = conn.result;
-			this.mdb.objectStores.forEach(element => {
+			this.mdb.objStrs.forEach(element => {
 				var store = Object.entries(element);
 				dbl.createObjectStore(store[0][0], {keyPath: store[0][1]});
 			});
@@ -21,13 +21,13 @@ function MindexedDB(databaseName, objectStores) {
 				resolve(this.mdb.db);
 			}
 			conn.onerror = function() {
-				resolve(false);
+				reject(conn.error);
 			}
 		});
 	}
 
 	this.cs = function(store) {
-		if (this.db === undefined) throw "[MindexDB] DB not open.";
+		if (this.db === undefined) throw "[Min.dexedDB] DB not open.";
 		var tx = this.db.transaction(store, "readwrite");
 		return tx.objectStore(store);
 	}
@@ -38,10 +38,10 @@ function MindexedDB(databaseName, objectStores) {
 		return new Promise(function(resolve, reject) {
 			var response = os.put(obj);
 			response.onsuccess = function() {
-				resolve(true);
+				resolve(response.result);
 			};
 			response.onerror = function() {
-				resolve(false);
+				reject(response.error);
 			};
 		});
 	}
@@ -52,10 +52,10 @@ function MindexedDB(databaseName, objectStores) {
 		return new Promise(function(resolve, reject) {
 			var response = os.get(key);
 			response.onsuccess = function() {
-				resolve(response);
+				resolve(response.result);
 			};
 			response.onerror = function() {
-				resolve(false);
+				reject(response.error);
 			};
 		});
 	}

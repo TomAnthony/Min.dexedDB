@@ -12,7 +12,7 @@ mdb = new MindexedDB("testDB", {testStore: "name"});
 mdb.connect().then(function() {
     mdb.put("testStore", {name: "Ralf", species: "Dog"});
     mdb.put("testStore", {name: "Fred", species: "Cat", numbers: [1,2,3]});
-    mdb.get("testStore", "Fred").then(function(animal){console.log(animal.result)});
+    mdb.get("testStore", "Fred").then(function(animal){console.log(animal)});
     mdb.close();
 });
 
@@ -21,7 +21,7 @@ mdb2 = new MindexedDB("anotherTestDB", [{testStore: "name"}, {extraStore: "name"
 mdb2.connect().then(function() {
     mdb2.put("testStore", {name: "Ralf", species: "Dog"});
     mdb2.put("extraStore", {name: "Fred", species: "Cat", numbers: [1,2,3]});
-    mdb2.get("extraStore", "Fred").then(function(animal){console.log(animal.result)});
+    mdb2.get("extraStore", "Fred").then(function(animal){console.log(animal)});
     mdb2.close();
 });
 ```
